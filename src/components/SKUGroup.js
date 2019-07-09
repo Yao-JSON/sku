@@ -21,6 +21,7 @@ class SKUGroup extends PureComponent {
     sku: PropTypes.object.isRequired,
     onSKUDelete: PropTypes.func,
     onSKUChange: PropTypes.func,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   };
 
   static defaultProps = {
@@ -124,7 +125,7 @@ class SKUGroup extends PureComponent {
   };
 
   render() {
-    let { sku, index, skuTree } = this.props;
+    let { sku, index, skuTree, disabled } = this.props;
     let { optionValue, optionText } = this.context;
     let { newSKUText, hasSKUImage } = this.state;
     const prefix = `${this.context.prefix}-group`;
@@ -148,6 +149,7 @@ class SKUGroup extends PureComponent {
             open={typeof sku[optionValue] === 'undefined'}
             optionValue={optionValue}
             data={skuTree}
+            disabled={disabled}
             onChange={this.selectSKUHandler}
             filter={this.filterHandler}
             onAsyncFilter={this.asyncFilterSKU}
@@ -155,18 +157,22 @@ class SKUGroup extends PureComponent {
             value={sku[optionValue] || ''}
           />
           {index === 0 ? (
-            <Checkbox checked={hasSKUImage} onChange={this.checkSKUImage}>
+            <Checkbox disabled={disabled} checked={hasSKUImage} onChange={this.checkSKUImage}>
               添加规格图片
             </Checkbox>
           ) : (
             ''
           )}
-          <span className="group-remove" onClick={this.props.onSKUDelete}>
-            ×
-          </span>
+          {
+            !disabled ? (<span className="group-remove" onClick={this.props.onSKUDelete}>
+              ×
+            </span>) : null
+          }
+          
         </h3>
         <SKUContainer
           sku={{ ...sku }}
+          disabled={disabled}
           hasSKUImage={hasSKUImage}
           onSKULeafChange={this.onSKULeafChange}
         />

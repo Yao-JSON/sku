@@ -149,6 +149,7 @@ class SKU extends PureComponent {
             key={index}
             index={index}
             sku={item}
+            disabled={disabled}
             skuTree={skuTree}
             onSKUChange={this.rebuildSKU}
             onSKUDelete={this.deleteSKU.bind(this, index)}

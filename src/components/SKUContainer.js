@@ -15,6 +15,7 @@ class SKUContainer extends PureComponent {
     optionText: PropTypes.string,
     onFetchSKU: PropTypes.func,
     onCreateSKU: PropTypes.func,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   };
 
   constructor(props) {
@@ -231,7 +232,7 @@ class SKUContainer extends PureComponent {
 
   render() {
     const { optionValue, optionText, prefix } = this.context;
-    const { sku, hasSKUImage } = this.props;
+    const { sku, hasSKUImage, disabled } = this.props;
 
     return (
       <div className="group-container">
@@ -250,6 +251,7 @@ class SKUContainer extends PureComponent {
                   content={
                     <Input
                       defaultValue={item[optionText]}
+                      disabled={disabled}
                       onChange={evt => (this.renameText = evt.target.value)}
                     />
                   }
@@ -259,12 +261,15 @@ class SKUContainer extends PureComponent {
                     <span className={cx(`${prefix}-item__text`)}>
                       {item[optionText]}
                     </span>
-                    <span
-                      className="item-remove"
-                      onClick={this.removeSKULeaf.bind(this, index)}
-                    >
-                      ×
-                    </span>
+                    {
+                      !disabled ? (<span
+                        className="item-remove"
+                        onClick={this.removeSKULeaf.bind(this, index)}
+                      >
+                        ×
+                      </span>) : null
+                    }
+                    
                   </div>
                 </Pop>
                 {hasSKUImage && (
@@ -323,7 +328,7 @@ class SKUContainer extends PureComponent {
               </div>
             );
           })}
-          {sku[optionValue] > 0 ? (
+          {sku[optionValue] > 0 && !disabled  ? (
             <Pop
               trigger="click"
               position="bottom-center"
