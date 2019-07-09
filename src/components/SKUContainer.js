@@ -207,7 +207,8 @@ class SKUContainer extends PureComponent {
 
   removeImg(id) {
     const { sku } = this.props;
-    let { optionValue } = this.context;
+    const { optionValue } = this.context;
+    
     sku.leaf.forEach(item => {
       if (item[optionValue] === id) {
         item.img_url = '';
@@ -218,7 +219,8 @@ class SKUContainer extends PureComponent {
 
   uploadSuccess(id, imageUrl) {
     const { sku } = this.props;
-    let { optionValue } = this.context;
+    const { optionValue } = this.context;
+
     sku.leaf.forEach(item => {
       if (item[optionValue] === id) {
         item.img_url = imageUrl[0].src;
@@ -228,9 +230,8 @@ class SKUContainer extends PureComponent {
   }
 
   render() {
-    let { optionValue, optionText, prefix } = this.context;
-
-    let { sku, hasSKUImage, i18n } = this.props;
+    const { optionValue, optionText, prefix } = this.context;
+    const { sku, hasSKUImage } = this.props;
 
     return (
       <div className="group-container">
@@ -278,7 +279,7 @@ class SKUContainer extends PureComponent {
                       <div className="upload-img">
                         <span
                           className="item-remove"
-                          title={i18n.container.del}
+                          title="删除"
                           onClick={this.removeImg.bind(this, item[optionValue])}
                         >
                           ×
@@ -301,7 +302,7 @@ class SKUContainer extends PureComponent {
                           )}
                         >
                           <span className={cx(`${prefix}-item__text`)}>
-                            {i18n.container.replace}
+                            替换
                           </span>
                         </Upload>
                       </div>
@@ -332,7 +333,7 @@ class SKUContainer extends PureComponent {
               onConfirm={this.selectSKU}
               onClose={this.resetLeaf}
             >
-              <span className="sku-add">{i18n.container.add}</span>
+              <span className="sku-add">+添加</span>
             </Pop>
           ) : (
             ''

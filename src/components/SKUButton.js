@@ -10,19 +10,20 @@ class SKUButton extends PureComponent {
 
   render() {
     const prefix = `${this.context.prefix}-group`;
-    let { disabled, i18n } = this.props;
+    const { disabled } = this.props;
+
     return (
       <div className={prefix}>
         <h3 className="group-title">
           {typeof disabled === 'string' ? (
             <Pop trigger="hover" position="top-left" content={disabled}>
               <Button onClick={this.props.onClick} disabled={!!disabled}>
-                {i18n.buttonAdd}
+                添加规格项目
               </Button>
             </Pop>
           ) : (
             <Button onClick={this.props.onClick} disabled={!!disabled}>
-              {i18n.buttonAdd}
+              添加规格项目
             </Button>
           )}
         </h3>

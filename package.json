@@ -1,6 +1,6 @@
 {
   "name": "@zent/sku",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scope": "zent",
   "description": "sku React component",
   "main": "lib/index.js",
@@ -37,7 +37,7 @@
     "nwb-sass": "^0.9.0",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
-    "zent": "7.0.0-next.5"
+    "zent": "7.0.0-next.19"
   },
   "author": "",
   "license": "MIT",

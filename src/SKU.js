@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Notify from 'zent/es/notify';
-import { I18nReceiver as Receiver } from 'zent/es/i18n';
 
 import SKUGroup from './components/SKUGroup';
 import SKUButton from './components/SKUButton';
@@ -103,7 +102,7 @@ class SKU extends PureComponent {
     this.setState({ data });
   };
 
-  rebuildSKU = i18n => (sku, index) => {
+  rebuildSKU = (sku, index) => {
     let { optionValue } = this.props;
     let { data, skuTree } = this.state;
     if (
@@ -111,7 +110,7 @@ class SKU extends PureComponent {
         (item, idx) => item[optionValue] === sku[optionValue] && index !== idx
       )
     ) {
-      Notify.error(i18n.notify);
+      Notify.error('规格名不能相同');
       data = [].concat(data);
       this.setState({ data });
       return false;
@@ -141,35 +140,25 @@ class SKU extends PureComponent {
 
   render() {
     const { className, prefix, maxSize, onCreateGroup, disabled } = this.props;
-
     const { skuTree, data } = this.state;
 
     return (
-      <Receiver componentName="Sku">
-        {i18n => (
-          <div className={cx(`${prefix}-sku`, className)}>
-            {data.map((item, index) => (
-              <SKUGroup
-                key={index}
-                index={index}
-                sku={item}
-                i18n={i18n}
-                skuTree={skuTree}
-                onSKUChange={this.rebuildSKU(i18n)}
-                onSKUDelete={this.deleteSKU.bind(this, index)}
-                onSKUCreate={onCreateGroup}
-              />
-            ))}
-            {data.length < maxSize && (
-              <SKUButton
-                onClick={this.addSKU}
-                i18n={i18n}
-                disabled={disabled}
-              />
-            )}
-          </div>
+      <div className={cx(`${prefix}-sku`, className)}>
+        {data.map((item, index) => (
+          <SKUGroup
+            key={index}
+            index={index}
+            sku={item}
+            skuTree={skuTree}
+            onSKUChange={this.rebuildSKU}
+            onSKUDelete={this.deleteSKU.bind(this, index)}
+            onSKUCreate={onCreateGroup}
+          />
+        ))}
+        {data.length < maxSize && (
+          <SKUButton onClick={this.addSKU} disabled={disabled} />
         )}
-      </Receiver>
+      </div>
     );
   }
 }
